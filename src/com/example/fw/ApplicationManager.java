@@ -4,22 +4,21 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ApplicationManager {
-	
-	protected final ApplicationManager manager;
-	private Properties properties;
-	private Process process;
-	
-	public  ApplicationManager(Properties properties) {
-		this.properties = properties;
-	}
 
+	private Properties properties;
+	private ContactHelper contactHelper;
+	private ProcessHelper processHelper;
+	
+	public ApplicationManager(Properties properties) {
+		this.properties = properties;
+		}
+	
 	public void stop() {
-		process.destroy();
+		getProcessHelper().stopAppUnderTest();
 	}
 	
 	public void start() throws IOException {
-		String command = manager.getProperty("app.path");
-		process = Runtime.getRuntime().exec(command);
+		getProcessHelper().startAppUnderTest();
 	}
 
 	public void setProperties(Properties properties){
@@ -33,12 +32,22 @@ public class ApplicationManager {
 	public String getProperty(String key, String defaultValue) {
 		return properties.getProperty(key, defaultValue);
 	}
+
+	public ContactHelper getContactHelper() {
+		if (contactHelper == null) {
+		contactHelper = new ContactHelper(this);
 		
-//	public FolderHelper getFolderHelper() {
-//		if (folderHelper == null) {
-//			folderHelper = new FolderHelper(this);
-			
-//		}
-//		return folderHelper;
-//	}
+	}
+	return contactHelper;
 }
+	public ProcessHelper getProcessHelper() {
+		if (processHelper == null) {
+		processHelper = new ProcessHelper(this);
+		
+	}
+	return processHelper;
+}
+	
+}
+
+
