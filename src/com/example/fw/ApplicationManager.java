@@ -8,6 +8,7 @@ public class ApplicationManager {
 	private Properties properties;
 	private ContactHelper contactHelper;
 	private ProcessHelper processHelper;
+	private AutoItHelper autoItHelper;
 	
 	public ApplicationManager(Properties properties) {
 		this.properties = properties;
@@ -48,6 +49,13 @@ public class ApplicationManager {
 	return processHelper;
 }
 	
+	public AutoItHelper getAutoItHelper() {
+		if (autoItHelper == null) {
+		autoItHelper = new AutoItHelper(this);
+		
+	}
+	return autoItHelper;
+}
 }
 
 
